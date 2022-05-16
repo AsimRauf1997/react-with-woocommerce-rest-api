@@ -8,7 +8,7 @@ import Books from "./components/Books";
 import Header from "./components/Header";
 import ProductDetail from "./screens/ProductDetail";
 import OrderDetail from "./screens/OrderDetail";
-const ProductPage = React.lazy(() => import("./screens/ProductPage"));
+import ProductPage from "./screens/ProductPage";
 const App = () => {
   const [posts, setPosts] = useState();
   const URL = "http://localhost/mysite/wp-json/wp/v2/books";

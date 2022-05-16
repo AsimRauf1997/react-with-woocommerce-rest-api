@@ -19,7 +19,7 @@ const BookItem = ({ data }) => {
   useEffect(() => {
     getOtherData();
   }, []);
-  const { imgUrl, author, isLoaded } = miscData;
+  const { imgUrl, author } = miscData;
   return (
     <div
       style={{

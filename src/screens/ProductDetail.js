@@ -4,16 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loader from "react-spinners/ClipLoader";
 import BackButton from "../components/BackButton";
+import ProductImages from "../components/ProductImages";
 import { getSingleProduct } from "../store/actions/productAction";
 const ProductDetail = () => {
   const params = useParams();
   const productDetail = useSelector((state) => state.productDetail);
   const dispatch = useDispatch();
-  const { product, loading, error } = productDetail;
+  const { product, loading } = productDetail;
   useEffect(() => {
     dispatch(getSingleProduct(params.id));
   }, [dispatch, params.id]);
-  console.log("Product Detail Page product: ", product, loading, error);
+
   return (
     <>
       <BackButton />
@@ -52,6 +53,7 @@ const ProductDetail = () => {
               <h3>
                 Product Title: <strong>{product.name}</strong>
               </h3>
+              {product.images && <ProductImages images={product.images} />}
 
               <p dangerouslySetInnerHTML={{ __html: product.description }}></p>
             </div>

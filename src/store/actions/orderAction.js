@@ -10,7 +10,7 @@ export const getAllOrders = () => async (dispatch) => {
     dispatch({
       type: ORDER_LIST_REQUEST,
     });
-    const { data } = await axios.get(URL);
+    const { data } = await axios.get("http://localhost:8000/orders");
     dispatch({
       type: ORDER_LIST_SUCCESS,
       payload: data,

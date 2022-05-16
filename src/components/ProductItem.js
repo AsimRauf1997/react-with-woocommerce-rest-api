@@ -68,15 +68,15 @@ const ProductItem = ({ data }) => {
             borderRadius: 20,
           }}
         >
-          <Link
+          <a
             style={{
               textDecoration: "none",
               color: "black",
             }}
-            to={`/product/${data.id}`}
+            href={`/product/${data.id}`}
           >
             Product Detail
-          </Link>
+          </a>
         </button>
       </div>
     </div>

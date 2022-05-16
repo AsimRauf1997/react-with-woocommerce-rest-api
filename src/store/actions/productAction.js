@@ -13,7 +13,7 @@ export const getAllProducts = () => async (dispatch) => {
     dispatch({
       type: PRODUCT_LIST_REQUEST,
     });
-    const { data } = await axios.get(URL);
+    const { data } = await axios.get("http://localhost:8000/products");
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
       payload: data,
@@ -30,7 +30,7 @@ export const getSingleProduct = (id) => async (dispatch) => {
     dispatch({
       type: SINGLE_PRODUCT_LIST_REQUEST,
     });
-    const { data } = await axios.get(URL / id);
+    const { data } = await axios.get(`http://localhost:8000/products/${id}`);
     dispatch({
       type: SINGLE_PRODUCT_LIST_SUCCESS,
       payload: data,
