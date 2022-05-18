@@ -1,8 +1,18 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
-const ProductItem = ({ data }) => {
+import "react-toastify/dist/ReactToastify.css";
+import { removeFromFav } from "../../store/actions/productAction";
+
+const FavoriteItem = ({ data }) => {
+  const dispatch = useDispatch();
+  const handleRemove = () => {
+    toast(`${data.name} Removed `);
+    dispatch(removeFromFav(data.id));
+  };
+
   return (
     <div
       style={{
@@ -22,6 +32,7 @@ const ProductItem = ({ data }) => {
           alignItems: "center",
           padding: 10,
           backgroundColor: "gray",
+          position: "relative",
         }}
       >
         <h3>
@@ -60,27 +71,21 @@ const ProductItem = ({ data }) => {
         >
           {data.regular_price} $
         </div>
+
         <button
           style={{
             padding: 10,
             backgroundColor: "red",
             border: "none",
             borderRadius: 20,
+            marginLeft: 10,
           }}
+          onClick={handleRemove}
         >
-          <a
-            style={{
-              textDecoration: "none",
-              color: "black",
-            }}
-            href={`/product/${data.id}`}
-          >
-            Product Detail
-          </a>
+          Remove From Favorites
         </button>
       </div>
     </div>
   );
 };
-
-export default ProductItem;
+export default FavoriteItem;

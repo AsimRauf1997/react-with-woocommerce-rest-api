@@ -1,7 +1,9 @@
 import {
+  ADD_TO_FAVORITE,
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
+  REMOVE_FROM_FAVORITE,
   SINGLE_PRODUCT_LIST_FAIL,
   SINGLE_PRODUCT_LIST_REQUEST,
   SINGLE_PRODUCT_LIST_SUCCESS,
@@ -38,5 +40,35 @@ export const singleProductReducer = (state = { product: {} }, action) => {
       return { loading: false, error: action.payload };
     default:
       return state;
+  }
+};
+export const addToFav = (state = { favorite: [] }, action) => {
+  switch (action.type) {
+    case ADD_TO_FAVORITE:
+      const fav = action.payload;
+      console.log(state);
+      const existItem = state.favorite.find((x) => x.id === fav.id);
+      if (existItem) {
+        return {
+          ...state,
+          favorite: state.favorite.map((x) =>
+            x.id === existItem.id ? fav : x
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          favorite: [...state.favorite, action.payload],
+        };
+      }
+    case REMOVE_FROM_FAVORITE: {
+      return {
+        ...state,
+        favorite: state.favorite.filter((x) => x.id !== action.payload),
+      };
+    }
+    default: {
+      return state;
+    }
   }
 };

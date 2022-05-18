@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "react-spinners/ClipLoader";
-import OrderItem from "../components/OrderItem";
+import OrderItem from "../components/order/OrderItem";
 import { getAllOrders } from "../store/actions/orderAction";
 
 const OrderPage = () => {

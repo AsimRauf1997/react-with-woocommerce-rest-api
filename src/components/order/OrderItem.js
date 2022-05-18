@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const OrderItem = ({ data }) => {
-  console.log("OrderItem", data);
   return (
     <div
       style={{

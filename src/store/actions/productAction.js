@@ -1,8 +1,10 @@
 import axios from "axios";
 import {
+  ADD_TO_FAVORITE,
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
+  REMOVE_FROM_FAVORITE,
   SINGLE_PRODUCT_LIST_FAIL,
   SINGLE_PRODUCT_LIST_REQUEST,
   SINGLE_PRODUCT_LIST_SUCCESS,
@@ -41,4 +43,24 @@ export const getSingleProduct = (id) => async (dispatch) => {
       payload: error,
     });
   }
+};
+export const addToFav = (data) => async (dispatch, getState) => {
+  dispatch({
+    type: ADD_TO_FAVORITE,
+    payload: data,
+  });
+  localStorage.setItem(
+    "FavItems",
+    JSON.stringify(getState().favorites.favorite)
+  );
+};
+export const removeFromFav = (id) => async (dispatch, getState) => {
+  dispatch({
+    type: REMOVE_FROM_FAVORITE,
+    payload: id,
+  });
+  localStorage.setItem(
+    "FavItems",
+    JSON.stringify(getState().favorites.favorite)
+  );
 };

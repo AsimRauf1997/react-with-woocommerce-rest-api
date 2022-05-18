@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loader from "react-spinners/ClipLoader";
 import BackButton from "../components/BackButton";
-import ProductImages from "../components/ProductImages";
+import ProductImages from "../components/product/ProductImages";
 import { getSingleProduct } from "../store/actions/productAction";
 const ProductDetail = () => {
   const params = useParams();
@@ -52,6 +52,9 @@ const ProductDetail = () => {
             >
               <h3>
                 Product Title: <strong>{product.name}</strong>
+              </h3>
+              <h3>
+                SKU: <strong>{product.sku}</strong>
               </h3>
               {product.images && <ProductImages images={product.images} />}
 

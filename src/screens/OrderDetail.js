@@ -1,30 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loader from "react-spinners/ClipLoader";
 import BackButton from "../components/BackButton";
+import { getSingleOrder } from "../store/actions/orderAction";
 
 const OrderDetail = () => {
   const params = useParams();
-
-  const [singlePost, setSinglePost] = useState({});
-  const URL = `http://localhost:8000/orders/${params.id}`;
-  const getData = async () => {
-    fetch(URL, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setSinglePost({ data: data, isLoaded: true }))
-      .catch((err) => console.log(err));
-  };
+  const dispatch = useDispatch();
+  const orderDetail = useSelector((state) => state.orderDetail);
+  const { order, loading } = orderDetail;
   useEffect(() => {
-    getData();
-  }, [getData]);
-  console.log(singlePost);
-  const { data, isLoaded } = singlePost;
+    dispatch(getSingleOrder(params.id));
+  }, [dispatch]);
+  console.log("orderDetail", orderDetail);
   return (
     <div>
       <BackButton to={"/orders"} />
@@ -37,7 +27,17 @@ const OrderDetail = () => {
         }}
       >
         <h1>Order Detail Page</h1>
-        {isLoaded ? (
+        {loading ? (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+            }}
+          >
+            <Loader />
+          </div>
+        ) : (
           <div
             style={{
               display: "flex",
@@ -50,35 +50,25 @@ const OrderDetail = () => {
               borderRadius: 20,
             }}
           >
-            <p>Order Number: {data.number}</p>
+            <p>Order Number: {order.number}</p>
             <p>
               Order Status: {""}
               <strong
                 style={{
                   fontSize: 18,
                   fontWeight: "bold",
-                  color: `${data.status === "completed" ? "green" : "red"}`,
+                  color: `${order.status === "completed" ? "green" : "red"}`,
                 }}
               >
-                {data.status}
+                {order.status}
               </strong>
             </p>
-            <p>First Name: {data.billing.first_name}</p>
-            <p>Last Name: {data.billing.last_name}</p>
-            <p>City: {data.billing.city}</p>
-            <p>Country: {data.billing.country}</p>
-            <p> CreatedAt: {data.date_created}</p>
-            <p>Total Amount: {data.total} PKR</p>
-          </div>
-        ) : (
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-            }}
-          >
-            <Loader />
+            <p>First Name: {order.billing?.first_name}</p>
+            <p>Last Name: {order.billing?.last_name}</p>
+            <p>City: {order.billing?.city}</p>
+            <p>Country: {order.billing?.country}</p>
+            <p> CreatedAt: {order.date_created}</p>
+            <p>Total Amount: {order.total} PKR</p>
           </div>
         )}
       </div>
