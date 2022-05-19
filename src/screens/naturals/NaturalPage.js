@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../store/actions/productAction";
 import Loader from "react-spinners/ClipLoader";
-import NaturalItem from "../../components/product/NaturalItem";
+import ProductItem from "../../components/product/ProductItem";
 
 const ProductPage = () => {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ const ProductPage = () => {
                 p.acf.type === "naturals"
             )
             .map((product) => (
-              <NaturalItem key={product.id} data={product} />
+              <ProductItem key={product.id} data={product} flag={"product"} />
             ))}
         </>
       )}

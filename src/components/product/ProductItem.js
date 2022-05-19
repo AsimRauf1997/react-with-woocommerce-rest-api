@@ -3,8 +3,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToFav } from "../../store/actions/productAction";
 import { toast } from "react-toastify";
-const ProductItem = ({ data }) => {
+import { Card, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+const ProductItem = ({ data, flag, handleRemove }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const fav = useSelector((state) => state.favorites);
   console.log("FAvorites Added:", fav);
   const handleAddToFAvorite = () => {
@@ -13,98 +16,50 @@ const ProductItem = ({ data }) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 10,
-      }}
-    >
-      <div
-        style={{
-          borderRadius: 20,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 10,
-          backgroundColor: "gray",
-          position: "relative",
-        }}
-      >
-        <h3>
-          Title: <strong>{data.name}</strong>
-        </h3>
-        <div
-          style={{
-            justifyContent: "space-between",
-            borderRadius: 20,
-          }}
-        >
-          {data.images.map((c) => (
-            <img
-              src={c.src}
-              alt='image'
-              width='200'
-              style={{
-                marginLeft: 10,
-                justifyContent: "space-between",
-                borderRadius: 20,
-              }}
-            />
-          ))}
-        </div>
-        <div
-          style={{
-            width: "40vw",
-          }}
-        >
-          <p dangerouslySetInnerHTML={{ __html: data.description }}></p>
-        </div>
+    <>
+      <Card style={{ width: "20rem" }}>
+        {data.images.map((c) => (
+          <Card.Img variant='bottom' src={c.src} />
+        ))}
 
-        <div
-          style={{
-            dispaly: "flex",
-            flexDirection: "row",
-            justifyContent: "space-around",
-          }}
-        >
-          <button
+        <Card.Body>
+          <Card.Title>{data.name}</Card.Title>
+          <Card.Text
+            dangerouslySetInnerHTML={{
+              __html: data.description.substring(0, 112),
+            }}
+          ></Card.Text>
+          <div
             style={{
-              padding: 10,
-              backgroundColor: "red",
-              border: "none",
-              borderRadius: 20,
+              display: "flex",
+              flex: 1,
+              justifyContent: "space-evenly",
             }}
           >
-            <a
-              style={{
-                textDecoration: "none",
-                color: "black",
-              }}
-              href={`/craft/${data.id}`}
-            >
-              Product Detail
-            </a>
-          </button>
-          <button
-            style={{
-              padding: 10,
-              backgroundColor: "red",
-              border: "none",
-              borderRadius: 20,
-              marginLeft: 10,
-              cursor: "pointer",
-            }}
-            onClick={handleAddToFAvorite}
-          >
-            Add to Favorite
-          </button>
-        </div>
-      </div>
-    </div>
+            {flag === "product" && (
+              <>
+                <Button
+                  variant='primary'
+                  onClick={() => navigate(`/craft/${data.id}`)}
+                >
+                  See Details
+                </Button>
+                <Button variant='primary' onClick={handleAddToFAvorite}>
+                  Add To Favorites
+                </Button>
+              </>
+            )}
+            {flag === "favorite" && (
+              <>
+                <Button variant='primary' onClick={handleRemove}>
+                  Remove
+                </Button>
+              </>
+            )}
+          </div>
+        </Card.Body>
+      </Card>
+    </>
   );
 };
 

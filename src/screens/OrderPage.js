@@ -11,7 +11,6 @@ const OrderPage = () => {
   useEffect(() => {
     dispatch(getAllOrders());
   }, [dispatch]);
-  console.log("ordersList", ordersList);
   return (
     <div>
       {loading ? (

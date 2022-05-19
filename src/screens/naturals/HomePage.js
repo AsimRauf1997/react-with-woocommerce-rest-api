@@ -3,8 +3,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../store/actions/productAction";
-import Loader from "react-spinners/ClipLoader";
-import NaturalItem from "../../components/product/NaturalItem";
 
 const HomePage = () => {
   //   const dispatch = useDispatch();

@@ -33,7 +33,7 @@ const ProductPage = () => {
           {products
             .filter((p) => p.acf.type === "crafts")
             .map((product) => (
-              <ProductItem key={product.id} data={product} />
+              <ProductItem key={product.id} data={product} flag={"product"} />
             ))}
         </>
       )}
