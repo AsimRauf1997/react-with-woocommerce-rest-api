@@ -46,7 +46,6 @@ export const addToFav = (state = { favorite: [] }, action) => {
   switch (action.type) {
     case ADD_TO_FAVORITE:
       const fav = action.payload;
-      console.log(state);
       const existItem = state.favorite.find((x) => x.id === fav.id);
       if (existItem) {
         return {

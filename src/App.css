@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 body {
+  background: url("../public/imgs/back.jpg");
   font-family: "Roboto Condensed", sans-serif;
 }
 .App {

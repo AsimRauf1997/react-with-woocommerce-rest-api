@@ -8,7 +8,9 @@ const Header = () => {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-4'>
-            <Nav.Link href='/cart'>Cart</Nav.Link>
+            <Nav.Link href='/cart'>
+              Cart
+              </Nav.Link>
             <Nav.Link href='/fav'>Favorites</Nav.Link>
             <NavDropdown title='Menu' id='basic-nav-dropdown'>
               <NavDropdown.Item href='/crafts'>Crafts</NavDropdown.Item>

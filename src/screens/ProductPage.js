@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../store/actions/productAction";
 import ProductItem from "../components/product/ProductItem";
 import Loader from "react-spinners/ClipLoader";
+import { Col, Container, Row } from "react-bootstrap";
 
 const ProductPage = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const ProductPage = () => {
   }, []);
 
   return (
-    <>
+    <Container>
       {loading ? (
         <div
           style={{
@@ -29,15 +30,17 @@ const ProductPage = () => {
           <Loader />
         </div>
       ) : (
-        <>
+        <Row>
           {products
             .filter((p) => p.acf.type === "crafts")
             .map((product) => (
-              <ProductItem key={product.id} data={product} flag={"product"} />
+              <Row>
+                <ProductItem key={product.id} data={product} flag={"product"} />
+              </Row>
             ))}
-        </>
+        </Row>
       )}
-    </>
+    </Container>
   );
 };
 
