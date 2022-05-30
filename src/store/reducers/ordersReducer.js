@@ -1,25 +1,28 @@
 import {
+  ORDER_FAIL,
   ORDER_LIST_FAIL,
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
+  ORDER_REQUEST,
+  ORDER_SUCCESS,
   SINGLE_ORDER_LIST_FAIL,
   SINGLE_ORDER_LIST_REQUEST,
   SINGLE_ORDER_LIST_SUCCESS,
 } from "../types";
 
-export const orderListReducer = (state = { orders: [] }, action) => {
+export const orderReducer = (state = { orders: [] }, action) => {
   switch (action.type) {
-    case ORDER_LIST_REQUEST:
+    case ORDER_REQUEST:
       return {
         loading: true,
       };
-    case ORDER_LIST_SUCCESS: {
+    case ORDER_SUCCESS: {
       return {
         loading: false,
         orders: action.payload,
       };
     }
-    case ORDER_LIST_FAIL: {
+    case ORDER_FAIL: {
       return { loading: false, error: action.payload };
     }
     default: {

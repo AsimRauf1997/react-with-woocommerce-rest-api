@@ -15,24 +15,28 @@ const HomePage = () => {
     {
       id: 1,
       title: "Edibles",
+      slug: "edibles",
       image_Url:
         "https://images.unsplash.com/photo-1597093218359-06440f36cb6f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     },
     {
       id: 2,
       title: "Skin Care",
+      slug: "skin-care",
       image_Url:
         "https://images.unsplash.com/photo-1526947425960-945c6e72858f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     },
     {
       id: 3,
       title: "Aromatherapy",
+      slug: "aroma",
       image_Url:
         "https://images.unsplash.com/photo-1624454002302-36b824d7bd0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     },
     {
       id: 4,
       title: "Gift Boxes",
+      slug: "gift",
       image_Url:
         "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2040&q=80",
     },
@@ -62,7 +66,7 @@ const HomePage = () => {
           {categoris.map((c) => (
             <div>
               <a
-                href='/category'
+                href={`/natural/${c.slug}`}
                 style={{
                   textDecoration: "none",
                   color: "#000",

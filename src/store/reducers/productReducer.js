@@ -1,5 +1,11 @@
 import {
   ADD_TO_FAVORITE,
+  CRAFT_PRODUCT_LIST_FAIL,
+  CRAFT_PRODUCT_LIST_REQUEST,
+  CRAFT_PRODUCT_LIST_SUCCESS,
+  CRAFT_SINGLE_PRODUCT_LIST_FAIL,
+  CRAFT_SINGLE_PRODUCT_LIST_REQUEST,
+  CRAFT_SINGLE_PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
@@ -30,6 +36,42 @@ export const productListReducer = (state = { products: [] }, action) => {
     }
   }
 };
+export const craftProductReducer = (state = { craftProducts: [] }, action) => {
+  switch (action.type) {
+    case CRAFT_PRODUCT_LIST_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case CRAFT_PRODUCT_LIST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        craftProducts: action.payload,
+      };
+    case CRAFT_PRODUCT_LIST_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    default: {
+      return state;
+    }
+  }
+};
+export const craftSingleProduct = (state = { craftProduct: [] }, action) => {
+  switch (action.type) {
+    case CRAFT_SINGLE_PRODUCT_LIST_REQUEST:
+      return { ...state, loading: true, craftProduct: [] };
+    case CRAFT_SINGLE_PRODUCT_LIST_SUCCESS:
+      return { ...state, loading: false, craftProduct: action.payload };
+    case CRAFT_SINGLE_PRODUCT_LIST_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const singleProductReducer = (state = { product: {} }, action) => {
   switch (action.type) {
     case SINGLE_PRODUCT_LIST_REQUEST:

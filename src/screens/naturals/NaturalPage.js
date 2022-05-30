@@ -4,15 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../store/actions/productAction";
 import Loader from "react-spinners/ClipLoader";
 import ProductItem from "../../components/product/ProductItem";
+import { useParams } from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
 
-const ProductPage = () => {
+const NaturalPage = () => {
+  const { slug } = useParams();
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.productList);
-  const { products, loading } = productList;
+  const { products, loading } = useSelector((state) => state.productList);
+
   useEffect(() => {
     dispatch(getAllProducts());
   }, []);
-
+  console.log(products);
   return (
     <>
       {loading ? (
@@ -29,20 +32,20 @@ const ProductPage = () => {
           <Loader />
         </div>
       ) : (
-        <>
+        <Row>
           {products
             .filter(
-              (p) =>
-                p.categories.filter((c) => c.name === "edibles") &&
-                p.acf.type === "naturals"
+              (p) => p.acf.category === "naturals" && p.acf.subcategory === slug
             )
             .map((product) => (
-              <ProductItem key={product.id} data={product} flag={"product"} />
+              <Col>
+                <ProductItem key={product.id} data={product} flag={"product"} />
+              </Col>
             ))}
-        </>
+        </Row>
       )}
     </>
   );
 };
 
-export default ProductPage;
+export default NaturalPage;

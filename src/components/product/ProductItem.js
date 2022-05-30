@@ -5,6 +5,7 @@ import { addToFav } from "../../store/actions/productAction";
 import { toast } from "react-toastify";
 import { Card, Button, Row, Col, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../store/actions/cartAction";
 const ProductItem = ({ data, flag, handleRemove }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -12,13 +13,13 @@ const ProductItem = ({ data, flag, handleRemove }) => {
   console.log("FAvorites Added:", fav);
   const handleAddToFAvorite = () => {
     toast(`${data.name} : Added to Favorites`);
-    dispatch(addToFav(data));
+    dispatch(addToCart(data));
   };
-
+  console.log(data);
   return (
     <>
       <Container className='mt-2'>
-        <Card style={{ width: "20rem" }}>
+        <Card style={{ width: "20rem" }} key={data.id}>
           {data.images.map((c) => (
             <Card.Img variant='bottom' src={c.src} />
           ))}
@@ -27,7 +28,7 @@ const ProductItem = ({ data, flag, handleRemove }) => {
             <Card.Title>{data.name}</Card.Title>
             <Card.Text
               dangerouslySetInnerHTML={{
-                __html: data.description.substring(0, 112),
+                __html: data.description,
               }}
             ></Card.Text>
             <div
@@ -46,7 +47,7 @@ const ProductItem = ({ data, flag, handleRemove }) => {
                     See Details
                   </Button>
                   <Button variant='primary' onClick={handleAddToFAvorite}>
-                    Add To Favorites
+                    Add To Cart
                   </Button>
                 </>
               )}

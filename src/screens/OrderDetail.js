@@ -17,7 +17,6 @@ const OrderDetail = () => {
   console.log("orderDetail", orderDetail);
   return (
     <div>
-      <BackButton to={"/orders"} />
       <div
         style={{
           display: "flex",

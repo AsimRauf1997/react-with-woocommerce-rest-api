@@ -4,7 +4,9 @@
   box-sizing: border-box;
 }
 body {
-  background: url("../public/imgs/back.jpg");
+  /* background: url("../public/imgs/back.jpg"); */
+  width: 100%;
+  height: 100%;
   font-family: "Roboto Condensed", sans-serif;
 }
 .App {
@@ -42,4 +44,41 @@ body {
 }
 #nav-bar-container {
   background-color: #aedaa0;
+}
+.login-container {
+  width: 400px;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  position: absolute;
+  top: 30%;
+  left: 30%;
+}
+.signup-container {
+  width: 400px;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  position: absolute;
+  top: 20%;
+  left: 30%;
+}
+.card-container {
+  padding: 10;
+  margin: 10;
+  border: 1px solid black;
+}
+.cursor {
+  cursor: pointer;
+}
+.btn {
+  background-color: #aedaa0;
+  border: none;
+}
+.txt-color {
+  color: #aedaa0;
+}
+.btns:focus::after {
+  border: none;
+  background-color: none;
 }

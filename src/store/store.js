@@ -3,18 +3,28 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
   addToFav,
+  craftProductReducer,
+  craftSingleProduct,
   productListReducer,
   singleProductReducer,
 } from "./reducers/productReducer";
-import { orderListReducer, singleOrderReducer } from "./reducers/ordersReducer";
+import {
+  orderListReducer,
+  orderReducer,
+  singleOrderReducer,
+} from "./reducers/ordersReducer";
 import { addToCart } from "./reducers/cartReducer";
+import { registerUser } from "./reducers/userReducer";
 const reducer = combineReducers({
   productList: productListReducer,
+  craft: craftProductReducer,
+  craftProductDetail: craftSingleProduct,
   productDetail: singleProductReducer,
-  ordersList: orderListReducer,
+  orders: orderReducer,
   orderDetail: singleOrderReducer,
   favorites: addToFav,
   cart: addToCart,
+  user: registerUser,
 });
 const ItemsfromStorage = {
   favItemsFromStorage: localStorage.getItem("FavItems")
@@ -24,12 +34,7 @@ const ItemsfromStorage = {
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [],
 };
-// const ItemsfromStorage = localStorage.getItem("FavItems")
-//   ? JSON.parse(localStorage.getItem("FavItems"))
-//   : [];
-// const cartItemFromStorage = localStorage.getItem("cartItems")
-//   ? JSON.parse(localStorage.getItem("cartItems"))
-//   : [];
+
 console.log(localStorage);
 const initialState = {
   favorites: { favorite: ItemsfromStorage.favItemsFromStorage },

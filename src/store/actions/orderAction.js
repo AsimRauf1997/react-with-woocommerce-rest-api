@@ -1,8 +1,11 @@
 import axios from "axios";
 import {
+  ORDER_FAIL,
   ORDER_LIST_FAIL,
   ORDER_LIST_REQUEST,
   ORDER_LIST_SUCCESS,
+  ORDER_REQUEST,
+  ORDER_SUCCESS,
   SINGLE_ORDER_LIST_FAIL,
   SINGLE_ORDER_LIST_REQUEST,
   SINGLE_ORDER_LIST_SUCCESS,
@@ -13,7 +16,9 @@ export const getAllOrders = () => async (dispatch) => {
     dispatch({
       type: ORDER_LIST_REQUEST,
     });
-    const { data } = await axios.get("http://localhost:8000/orders");
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_WP_URL}/orders`
+    );
     dispatch({
       type: ORDER_LIST_SUCCESS,
       payload: data,
@@ -30,7 +35,9 @@ export const getSingleOrder = (id) => async (dispatch) => {
     dispatch({
       type: SINGLE_ORDER_LIST_REQUEST,
     });
-    const { data } = await axios.get(`http://localhost:8000/orders/${id}`);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_WP_URL}/orders/${id}`
+    );
     dispatch({
       type: SINGLE_ORDER_LIST_SUCCESS,
       payload: data,
@@ -38,6 +45,35 @@ export const getSingleOrder = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: SINGLE_ORDER_LIST_FAIL,
+      payload: error,
+    });
+  }
+};
+export const addOrder = (orederData) => async (dispatch) => {
+  console.log(orederData);
+  try {
+    dispatch({
+      type: ORDER_REQUEST,
+    });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_BASE_WP_URL}/orders/`,
+      {
+        data: orederData,
+      },
+      { config }
+    );
+    dispatch({
+      type: ORDER_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ORDER_FAIL,
       payload: error,
     });
   }
