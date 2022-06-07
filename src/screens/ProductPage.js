@@ -14,11 +14,16 @@ const ProductPage = ({ history }) => {
   const navigate = useNavigate();
   const productList = useSelector((state) => state.craft);
   const { craftProducts, loading } = productList;
-  console.log(craftProducts);
   useEffect(() => {
     dispatch(getCraftProducts());
   }, [dispatch]);
-
+  console.log(
+    loading
+      ? "Loading"
+      : craftProducts
+          // .filter((c) => c.is_onwoocom === true)
+          .map((data) => data.is_onwoocom === true)
+  );
   const handleAddToFAvorite = (data) => {
     toast(`${data.name} : Added to Favorites`);
     dispatch(addToFav(data));
@@ -27,7 +32,6 @@ const ProductPage = ({ history }) => {
     toast(`${data.name} : Added to Cart`);
     dispatch(addToCart(data));
   };
-  console.log(craftProducts);
   return (
     <Container>
       <h1 className='mt-2'>Featured Products</h1>
@@ -48,8 +52,11 @@ const ProductPage = ({ history }) => {
         <>
           <Row>
             {craftProducts
-              .filter((c, index) => c.is_featured_product === true)
-              .filter((_, index) => index < 4)
+              .filter(
+                (c, index) =>
+                  c.is_onwoocom === true && c.is_featured_product === true
+              )
+
               .map((data) => (
                 <Col md={1} lg={3} xs={1} className='mt-2' key={data._id}>
                   <Card style={{ width: "20rem", border: "none" }}>

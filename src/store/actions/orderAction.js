@@ -14,18 +14,19 @@ import {
 export const getAllOrders = () => async (dispatch) => {
   try {
     dispatch({
-      type: ORDER_LIST_REQUEST,
+      type: ORDER_REQUEST,
     });
     const { data } = await axios.get(
       `${process.env.REACT_APP_BASE_WP_URL}/orders`
     );
+    console.log(data);
     dispatch({
-      type: ORDER_LIST_SUCCESS,
+      type: ORDER_SUCCESS,
       payload: data,
     });
   } catch (error) {
     dispatch({
-      type: ORDER_LIST_FAIL,
+      type: ORDER_FAIL,
       payload: error,
     });
   }

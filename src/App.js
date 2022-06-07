@@ -13,6 +13,7 @@ import NaturalPage from "./screens/naturals/NaturalPage";
 import CartPage from "./screens/cart/CartPage";
 import LoginPage from "./screens/login/LoginPage";
 import Signup from "./screens/signup/Signup";
+import MainPage from "./screens/HomePage";
 import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory();
@@ -23,6 +24,7 @@ const App = () => {
       <Header />
       <Routes>
         <>
+          <Route exact path='/' element={<MainPage />} />
           <Route exact path='/login' element={<LoginPage />} />
           <Route exact path='/signup' element={<Signup />} />
           <Route exact path='/crafts' element={<ProductPage />} />

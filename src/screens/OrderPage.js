@@ -6,11 +6,11 @@ import { getAllOrders } from "../store/actions/orderAction";
 
 const OrderPage = () => {
   const dispatch = useDispatch();
-  const ordersList = useSelector((state) => state.ordersList);
-  const { orders, loading } = ordersList;
+  const { orders, loading } = useSelector((state) => state.ordersList);
   useEffect(() => {
     dispatch(getAllOrders());
   }, [dispatch]);
+
   return (
     <div>
       {loading ? (
@@ -29,7 +29,9 @@ const OrderPage = () => {
       ) : (
         <>
           {orders.map((data) => (
-            <OrderItem data={data} />
+            <>
+              <OrderItem data={data} />
+            </>
           ))}
         </>
       )}

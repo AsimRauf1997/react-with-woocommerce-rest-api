@@ -1,5 +1,6 @@
+/* eslint-disable no-lone-blocks */
 /* eslint-disable no-unreachable */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -15,13 +16,19 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "react-spinners/ClipLoader";
 import CartItem from "../../components/cart/CartItem";
 import { addOrder } from "../../store/actions/orderAction";
+import { getCraftProducts } from "../../store/actions/productAction";
+import { unitPriceCalculation, unitTaxCalculation } from "../../utils/common";
 const _ = require("lodash");
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
-  const { loading } = useSelector((state) => state.orders);
-  console.log("cart", cartItem, loading);
+  const { loading } = useSelector((state) => state.ordersList);
+  // const { craftProducts } = useSelector((state) => state.craft);
+  // useEffect(() => {
+  //   dispatch(getCraftProducts());
+  // }, [dispatch]);
+  // console.log(craftProducts);
   const [show, setShow] = useState(false);
   const [paymentType, setPaymentType] = useState("cod");
   const [checkBox, setCheckBox] = useState(false);
@@ -31,12 +38,10 @@ const CartPage = () => {
   const [shipCity, setShipCity] = useState("");
   const [shipProvince, setShipProvince] = useState("");
   const [shipAddress, setShipAddress] = useState("");
-  // const [shippingDetails, setShippingDetails] = useState({});
   const [billCountry, setBillCountry] = useState("");
   const [billCity, setBillCity] = useState("");
   const [billProvince, setBillProvince] = useState("");
   const [billAddress, setBillAddress] = useState("");
-  // const [billingDetails, setBillingDetails] = useState({});
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   let shippingDetails = {
@@ -91,8 +96,8 @@ const CartPage = () => {
     console.log(e.target);
     setCheckBox(!checkBox);
   };
-  console.log("Shipping Details", shippingDetails);
-  console.log("Billing Details", billingDetails);
+  // console.log("Shipping Details", shippingDetails);
+  // console.log("Billing Details", billingDetails);
   const groupByCategory = cartItem.reduce((group, product) => {
     group[product.id ? product.id : product._id] =
       group[product.id ? product.id : product._id] ?? [];
@@ -103,20 +108,65 @@ const CartPage = () => {
     groupByCategory[key][0].quantity = groupByCategory[key].length;
     return groupByCategory[key][0];
   });
-
-  console.log("groupByCategory", groupByCategory);
+  let TotalExclTax = 0;
+  let TotalTax = 0;
+  cartItem.forEach((element) => {
+    {
+      element.isDiscountAvailable
+        ? (TotalExclTax += unitPriceCalculation(
+            element.discountedPrice,
+            element.saleTax
+          ))
+        : // unitPriceCalculation(packPrice[0].price, packPrice[0].SaleTax)
+          (TotalExclTax += unitPriceCalculation(
+            element.price,
+            element.saleTax ? element.saleTax : 0
+          ));
+      // unitPriceCalculation(packPrice[0].price, packPrice[0].SaleTax)
+    }
+    {
+      element.isDiscountAvailable
+        ? (TotalTax += unitTaxCalculation(
+            element.discountedPrice,
+            element.saleTax
+          ))
+        : (TotalTax += unitTaxCalculation(
+            element.price,
+            element.saleTax ? element.saleTax : 0
+          ));
+    }
+  });
+  // console.log("groupByCategory", groupByCategory);
+  // const products = craftProducts
+  //   .filter((c, index) => c.is_featured_product === true)
+  //   .filter((_, index) => index < 1)
+  //   .map((data) => data);
+  // const abc = Object.assign({}, products);
+  // console.log(abc, products);
+  const line_items = processedCartItem.map((x) => ({
+    name: x.name,
+    product_id: x.id ? x.id : x._id,
+    quantity: parseInt(x.quantity),
+    sku: x.sku,
+    price: x.price,
+    images: x.images,
+  }));
   const handleSubmit = (e) => {
     e.preventDefault();
     const object = {
       billing: billingDetails,
       shipping: shippingDetails,
-      line_items: processedCartItem,
+      line_items: [...line_items],
       payment_method: paymentType,
+      date_created: new Date(),
+      date_created_gmt: new Date(),
+      prices_include_tax: true,
     };
+    console.log(object);
     dispatch(addOrder(JSON.stringify(object)));
     setTimeout(() => {
       setShow(false);
-    }, 5000);
+    }, 3000);
   };
   return (
     <Container className='mt-4'>
@@ -359,7 +409,7 @@ const CartPage = () => {
           <Button variant='secondary' onClick={handleClose}>
             Close
           </Button>
-          <Button className="btns" onClick={handleSubmit} variant='primary'>
+          <Button className='btns' onClick={handleSubmit} variant='primary'>
             <div
               style={{
                 display: "flex",

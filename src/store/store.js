@@ -14,17 +14,19 @@ import {
   singleOrderReducer,
 } from "./reducers/ordersReducer";
 import { addToCart } from "./reducers/cartReducer";
-import { registerUser } from "./reducers/userReducer";
+import { loginUser, registerUser } from "./reducers/userReducer";
+import { login } from "./actions/userAction";
 const reducer = combineReducers({
   productList: productListReducer,
   craft: craftProductReducer,
   craftProductDetail: craftSingleProduct,
   productDetail: singleProductReducer,
-  orders: orderReducer,
+  ordersList: orderReducer,
   orderDetail: singleOrderReducer,
   favorites: addToFav,
   cart: addToCart,
   user: registerUser,
+  userLogin: loginUser,
 });
 const ItemsfromStorage = {
   favItemsFromStorage: localStorage.getItem("FavItems")

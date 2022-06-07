@@ -1,29 +1,62 @@
-import React, { useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
-
-const LoginPage = () => {
-  const [error, setError] = useState();
+import React, { useEffect, useState } from "react";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import Loader from "react-spinners/ClipLoader";
+import Message from "../../components/Message";
+import { userLogin } from "../../store/actions/userAction";
+const LoginPage = ({ location }) => {
+  const dispatch = useDispatch();
+  const { error, userInfo, success, loading } = useSelector(
+    (state) => state.userLogin
+  );
+  console.log(userInfo, success);
+  const [err, setErr] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const navigate = useNavigate();
+
   const handleEmail = (e) => {
-    setError("");
+    setErr("");
     setEmail(e.target.value);
   };
   const handlePass = (e) => {
-    setError("");
+    setErr("");
     setPassword(e.target.value);
   };
-  const handleSubmit = () => {
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate("/");
+  //   }
+  // }, []);
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (!email || !password) {
-      setError("Field Cant be Empty");
-    } else alert("This Button is Clicked");
+      setErr("Field Cant be Empty");
+    } else {
+      const data = {
+        email,
+        password,
+      };
+
+      dispatch(userLogin(data));
+      setTimeout(() => {
+        if (userInfo) {
+          console.log("Executed");
+          return navigate("/");
+        }
+      }, 2000);
+    }
   };
   return (
     <div className='login-container'>
+      {err && <Message variant={"danger"}>{err}</Message>}
+      {error && <Message variant={"danger"}>{error}</Message>}
+      {success && <Message variant={"success"}>{success}</Message>}
       <Card
         style={{
           width: "30vw",
-          backgroundColor: "#fff6db",
+          backgroundColor: "#aedaa0",
           borderColor: "#ff900520",
         }}
       >
@@ -40,11 +73,11 @@ const LoginPage = () => {
                   fontSize: 14,
                 }}
               >
-                Email address
+                Email address/ UserName
               </Form.Label>
               <Form.Control
-                type='email'
-                placeholder='Enter email'
+                type='text'
+                placeholder='Enter email/ User Name'
                 value={email}
                 onChange={(e) => handleEmail(e)}
               />
@@ -65,15 +98,6 @@ const LoginPage = () => {
                 onChange={(e) => handlePass(e)}
               />
             </Form.Group>
-            {error && (
-              <p
-                style={{
-                  color: "red",
-                }}
-              >
-                {error}
-              </p>
-            )}
           </Form>
           <hr />
           <div
@@ -90,11 +114,29 @@ const LoginPage = () => {
               type='submit'
               onClick={handleSubmit}
             >
-              Login
+              {loading ? <Loader size={20} color={"white"} /> : "Login"}
             </Button>
           </div>
         </Card.Body>
       </Card>
+      <Row className='mt-3'>
+        <Col>
+          <span>
+            New User?{" "}
+            <span>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+                to='/signup'
+              >
+                Register here
+              </Link>
+            </span>{" "}
+          </span>
+        </Col>
+      </Row>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "react-spinners/ClipLoader";
 import Message from "../../components/Message";
 import { register } from "../../store/actions/userAction";
@@ -54,6 +54,8 @@ const Signup = () => {
       !userName
     ) {
       setErr("Fields Cant be Empty");
+    } else if (password.length < 6) {
+      setErr("Password Should have 6 Characters");
     } else if (password !== confirmPassword) {
       setErr("Password Don't Match");
     } else {
@@ -76,7 +78,7 @@ const Signup = () => {
       <Card
         style={{
           width: "30vw",
-          backgroundColor: "#fff6db",
+          backgroundColor: "#aedaa0",
           borderColor: "#ff900520",
         }}
       >
@@ -207,6 +209,25 @@ const Signup = () => {
           </div>
         </Card.Body>
       </Card>
+      <Row className='mt-3'>
+        <Col>
+          <span>
+            Already have an account?{" "}
+            <span>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+                onMouseOver='red'
+                to='/login'
+              >
+                Login here
+              </Link>
+            </span>{" "}
+          </span>
+        </Col>
+      </Row>
     </div>
   );
 };

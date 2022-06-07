@@ -39,6 +39,7 @@ const NaturalPage = () => {
             )
             .map((product) => (
               <Col>
+              
                 <ProductItem key={product.id} data={product} flag={"product"} />
               </Col>
             ))}
