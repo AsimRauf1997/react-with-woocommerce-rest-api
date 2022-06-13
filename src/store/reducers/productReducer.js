@@ -1,4 +1,7 @@
 import {
+  ADD_PRODUCT_TO_WOOCOM_FAIL,
+  ADD_PRODUCT_TO_WOOCOM_REQUEST,
+  ADD_PRODUCT_TO_WOOCOM_SUCCESS,
   ADD_TO_FAVORITE,
   CRAFT_PRODUCT_LIST_FAIL,
   CRAFT_PRODUCT_LIST_REQUEST,
@@ -106,6 +109,32 @@ export const addToFav = (state = { favorite: [] }, action) => {
       return {
         ...state,
         favorite: state.favorite.filter((x) => x.id !== action.payload),
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+export const addProductToWoocom = (state = { added: {} }, action) => {
+  switch (action.type) {
+    case ADD_PRODUCT_TO_WOOCOM_REQUEST: {
+      return { isLoading: true };
+    }
+    case ADD_PRODUCT_TO_WOOCOM_SUCCESS: {
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        added: action.payload.data,
+        success: action.payload.msg,
+      };
+    }
+    case ADD_PRODUCT_TO_WOOCOM_FAIL: {
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
       };
     }
     default: {

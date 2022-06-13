@@ -9,7 +9,6 @@ import OrderDetail from "./screens/OrderDetail";
 import ProductPage from "./screens/ProductPage";
 import FavoritesPage from "./screens/FavoritesPage";
 import HomePage from "./screens/naturals/HomePage";
-import NaturalPage from "./screens/naturals/NaturalPage";
 import CartPage from "./screens/cart/CartPage";
 import LoginPage from "./screens/login/LoginPage";
 import Signup from "./screens/signup/Signup";
@@ -29,7 +28,6 @@ const App = () => {
           <Route exact path='/signup' element={<Signup />} />
           <Route exact path='/crafts' element={<ProductPage />} />
           <Route exact path='/naturals' element={<HomePage />} />
-          <Route exact path='/natural/:slug' element={<NaturalPage />} />
           <Route exact path='/orders' element={<OrderPage />} />
           <Route exact path='/order/:id' element={<OrderDetail />} />
           <Route exact path='/productdetail/:id' element={<ProductDetail />} />

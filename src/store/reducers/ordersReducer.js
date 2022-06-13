@@ -10,7 +10,7 @@ import {
   SINGLE_ORDER_LIST_SUCCESS,
 } from "../types";
 
-export const orderReducer = (state = { orders: [] }, action) => {
+export const confirmOrder = (state = { data: [] }, action) => {
   switch (action.type) {
     case ORDER_REQUEST:
       return {
@@ -19,11 +19,12 @@ export const orderReducer = (state = { orders: [] }, action) => {
     case ORDER_SUCCESS: {
       return {
         loading: false,
-        orders: action.payload,
+        data: action.payload.data,
+        success: action.payload.msg,
       };
     }
     case ORDER_FAIL: {
-      return { loading: false, error: action.payload };
+      return { loading: false, error: action.payload.msg };
     }
     default: {
       return state;

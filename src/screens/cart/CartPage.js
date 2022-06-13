@@ -14,7 +14,9 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "react-spinners/ClipLoader";
+import { toast } from "react-toastify";
 import CartItem from "../../components/cart/CartItem";
+import { clearCart, removeFromCart } from "../../store/actions/cartAction";
 import { addOrder } from "../../store/actions/orderAction";
 import { getCraftProducts } from "../../store/actions/productAction";
 import { unitPriceCalculation, unitTaxCalculation } from "../../utils/common";
@@ -23,11 +25,8 @@ const _ = require("lodash");
 const CartPage = () => {
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
-  const { loading } = useSelector((state) => state.ordersList);
-  // const { craftProducts } = useSelector((state) => state.craft);
-  // useEffect(() => {
-  //   dispatch(getCraftProducts());
-  // }, [dispatch]);
+  const { loading, success } = useSelector((state) => state.ordersList);
+  console.log(success);
   // console.log(craftProducts);
   const [show, setShow] = useState(false);
   const [paymentType, setPaymentType] = useState("cod");
@@ -164,9 +163,11 @@ const CartPage = () => {
     };
     console.log(object);
     dispatch(addOrder(JSON.stringify(object)));
+    toast(success);
     setTimeout(() => {
       setShow(false);
-    }, 3000);
+      dispatch(clearCart());
+    }, 5000);
   };
   return (
     <Container className='mt-4'>

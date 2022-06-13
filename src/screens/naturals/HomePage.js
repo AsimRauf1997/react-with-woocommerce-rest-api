@@ -1,99 +1,142 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../../store/actions/productAction";
+import Loader from "react-spinners/ClipLoader";
+import { addProduct, getAllProducts } from "../../store/actions/productAction";
+import { FaCartPlus } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { addToCart } from "../../store/actions/cartAction";
+import Message from "../../components/Message";
 
 const HomePage = () => {
-  //   const dispatch = useDispatch();
-  //   const productList = useSelector((state) => state.productList);
-  //   const { products, loading } = productList;
-  //   useEffect(() => {
-  //     dispatch(getAllProducts());
-  //   }, []);
-  const categoris = [
-    {
-      id: 1,
-      title: "Edibles",
-      slug: "edibles",
-      image_Url:
-        "https://images.unsplash.com/photo-1597093218359-06440f36cb6f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-    },
-    {
-      id: 2,
-      title: "Skin Care",
-      slug: "skin-care",
-      image_Url:
-        "https://images.unsplash.com/photo-1526947425960-945c6e72858f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-    },
-    {
-      id: 3,
-      title: "Aromatherapy",
-      slug: "aroma",
-      image_Url:
-        "https://images.unsplash.com/photo-1624454002302-36b824d7bd0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-    },
-    {
-      id: 4,
-      title: "Gift Boxes",
-      slug: "gift",
-      image_Url:
-        "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2040&q=80",
-    },
-  ];
-
+  const dispatch = useDispatch();
+  const { products, loading } = useSelector((state) => state.productList);
+  const { success, error, isLoading } = useSelector(
+    (state) => state.addproduct
+  );
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
+  const handleAddToCart = (data) => {
+    toast(`${data.name} : Added to Cart`);
+    dispatch(addToCart(data));
+  };
+  const handleAddToWoocommerce = (data) => {
+    const transformedData = {
+      name: data.name,
+      slug: data.slug,
+      sku: data.sku,
+      price: data.price,
+      regular_price: data.price,
+      description: data.description,
+      short_description: data.description,
+      images: [{ src: data.images.map((c) => c.src).toString() }],
+    };
+    console.log(transformedData);
+    dispatch(addProduct(JSON.stringify(transformedData)));
+    toast(success ? success : error);
+  };
+  console.log(products);
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          marginTop: 200,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+    <Container>
+      <h1>NaturalPage</h1>
+      {loading ? (
         <div
           style={{
+            top: "50%",
+            left: "50%",
+            position: "absolute",
             display: "flex",
-            justifyContent: "space-evenly",
+            justifyContent: "center",
             alignItems: "center",
-            borderRadius: 20,
-            width: "100%",
-            padding: 10,
           }}
         >
-          {categoris.map((c) => (
-            <div>
-              <a
-                href={`/natural/${c.slug}`}
-                style={{
-                  textDecoration: "none",
-                  color: "#000",
-                }}
-              >
-                <img
-                  src={c.image_Url}
-                  alt='Image'
-                  width={200}
-                  style={{
-                    borderRadius: 20,
-                  }}
-                />
-                <p
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  {c.title}
-                </p>
-              </a>
-            </div>
-          ))}
+          <Loader />
         </div>
-      </div>
-    </>
+      ) : (
+        <>
+          <Row>
+            {products.map((p) => (
+              <Item
+                p={p}
+                isLoading={isLoading}
+                handleAddToCart={handleAddToCart}
+                handleAddToWoocommerce={handleAddToWoocommerce}
+              />
+            ))}
+          </Row>
+        </>
+      )}
+    </Container>
   );
 };
+const Item = ({ p, handleAddToCart, handleAddToWoocommerce, isLoading }) => {
+  return (
+    <Col lg={4} className='mt-2 p-2'>
+      <Card style={{ width: "20rem", border: "none" }}>
+        {p?.images && (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              padding: 10,
+            }}
+          >
+            <Card.Img variant='top' width={20} src={p.images[0].src} />
+          </div>
+        )}
 
+        <Card.Body>
+          <Row>
+            <Col lg={10}>
+              <Card.Title>{p.name}</Card.Title>
+            </Col>
+            <Col>
+              <a type='button'>
+                <FaCartPlus onClick={() => handleAddToCart(p)} />
+              </a>
+            </Col>
+          </Row>
+
+          <br />
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              justifyContent: "space-evenly",
+            }}
+          >
+            <>
+              <Button
+                style={{
+                  backgroundColor: "#aedaa0",
+                  border: "none",
+                }}
+                // onClick={() =>
+                //   navigate(`/productdetail/${data._id}`, {
+                //     push: true,
+                //   })
+                // }
+              >
+                See Details
+              </Button>
+              <Button
+                style={{
+                  backgroundColor: "#aedaa0",
+                  border: "none",
+                }}
+                onClick={() => handleAddToWoocommerce(p)}
+              >
+                Add to Store
+              </Button>
+            </>
+          </div>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
+};
 export default HomePage;

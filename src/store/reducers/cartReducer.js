@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../types";
+import { ADD_TO_CART, EMPTY_CART, REMOVE_FROM_CART } from "../types";
 
 export const addToCart = (state = { cartItem: [] }, action) => {
   switch (action.type) {
@@ -25,6 +25,11 @@ export const addToCart = (state = { cartItem: [] }, action) => {
         cartItem: state.cartItem.filter(
           (x) => (x.id ? x.id : x._id) !== action.payload
         ),
+      };
+    case EMPTY_CART:
+      return {
+        ...state,
+        cartItem: action.payload,
       };
 
     default: {

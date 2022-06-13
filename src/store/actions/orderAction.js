@@ -68,6 +68,7 @@ export const addOrder = (orederData) => async (dispatch) => {
       },
       { config }
     );
+    console.log("chceking Response:", data);
     dispatch({
       type: ORDER_SUCCESS,
       payload: data,

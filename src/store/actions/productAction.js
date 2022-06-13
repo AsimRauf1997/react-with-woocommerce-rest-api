@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+  ADD_PRODUCT_TO_WOOCOM_FAIL,
+  ADD_PRODUCT_TO_WOOCOM_REQUEST,
+  ADD_PRODUCT_TO_WOOCOM_SUCCESS,
   ADD_TO_FAVORITE,
   CRAFT_PRODUCT_LIST_FAIL,
   CRAFT_PRODUCT_LIST_REQUEST,
@@ -22,7 +25,7 @@ export const getAllProducts = () => async (dispatch) => {
       type: PRODUCT_LIST_REQUEST,
     });
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_WP_URL}/products`
+      `${process.env.REACT_APP_BASE_WP_URL}/naturals`
     );
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
@@ -72,6 +75,34 @@ export const getSingleCraftProduct = (id) => async (dispatch) => {
     dispatch({
       type: CRAFT_SINGLE_PRODUCT_LIST_FAIL,
       payload: error,
+    });
+  }
+};
+export const addProduct = (productData) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADD_PRODUCT_TO_WOOCOM_REQUEST,
+    });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_BASE_WP_URL}/naturals`,
+      {
+        data: productData,
+      },
+      { config }
+    );
+    dispatch({
+      type: ADD_PRODUCT_TO_WOOCOM_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_PRODUCT_TO_WOOCOM_FAIL,
+      payload: error.response.data.msg,
     });
   }
 };

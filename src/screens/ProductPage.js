@@ -18,11 +18,7 @@ const ProductPage = ({ history }) => {
     dispatch(getCraftProducts());
   }, [dispatch]);
   console.log(
-    loading
-      ? "Loading"
-      : craftProducts
-          // .filter((c) => c.is_onwoocom === true)
-          .map((data) => data.is_onwoocom === true)
+    craftProducts.filter((c) => c.is_onwoocom === true).map((data) => data)
   );
   const handleAddToFAvorite = (data) => {
     toast(`${data.name} : Added to Favorites`);
@@ -52,14 +48,10 @@ const ProductPage = ({ history }) => {
         <>
           <Row>
             {craftProducts
-              .filter(
-                (c, index) =>
-                  c.is_onwoocom === true && c.is_featured_product === true
-              )
-
+              .filter((c, index) => c.is_onwoocom === true)
               .map((data) => (
-                <Col md={1} lg={3} xs={1} className='mt-2' key={data._id}>
-                  <Card style={{ width: "20rem", border: "none" }}>
+                <Col md={1} lg={4} xs={1} className='mt-2' key={data._id}>
+                  <Card style={{ width: "20vw", border: "none" }}>
                     {data?.images && (
                       <div
                         style={{
@@ -70,10 +62,12 @@ const ProductPage = ({ history }) => {
                       >
                         <Card.Img
                           variant='top'
-                          width={20}
                           src={
                             process.env.REACT_APP_IMAGE_URL + data.images[0].url
                           }
+                          style={{
+                            width: 200,
+                          }}
                         />
                       </div>
                     )}

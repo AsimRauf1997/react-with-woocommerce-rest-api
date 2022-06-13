@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
+  addProductToWoocom,
   addToFav,
   craftProductReducer,
   craftSingleProduct,
@@ -9,6 +10,7 @@ import {
   singleProductReducer,
 } from "./reducers/productReducer";
 import {
+  confirmOrder,
   orderListReducer,
   orderReducer,
   singleOrderReducer,
@@ -21,12 +23,13 @@ const reducer = combineReducers({
   craft: craftProductReducer,
   craftProductDetail: craftSingleProduct,
   productDetail: singleProductReducer,
-  ordersList: orderReducer,
+  ordersList: confirmOrder,
   orderDetail: singleOrderReducer,
   favorites: addToFav,
   cart: addToCart,
   user: registerUser,
   userLogin: loginUser,
+  addproduct: addProductToWoocom,
 });
 const ItemsfromStorage = {
   favItemsFromStorage: localStorage.getItem("FavItems")

@@ -19,12 +19,21 @@ import { removeFromCart } from "../../store/actions/cartAction";
 import { FaTrash } from "react-icons/fa";
 import { unitPriceCalculation, unitTaxCalculation } from "../../utils/common";
 import { Link } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData from "../../animation/cartAnimation.json";
 
 const _ = require("lodash");
 const CartItem = ({ handleShow, processedCartItem }) => {
   const dispatch = useDispatch();
   const { cartItem } = useSelector((state) => state.cart);
-
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   const handleRemove = (id, name) => {
     console.log(id);
     dispatch(removeFromCart(id));
@@ -221,7 +230,29 @@ const CartItem = ({ handleShow, processedCartItem }) => {
           <DataTable
             columns={columns}
             data={processedCartItem}
-            noDataComponent={<FormLabel>Your Cart is Empty !</FormLabel>}
+            noDataComponent={
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Lottie options={defaultOptions} height={300} width={300} />
+
+                <FormLabel>
+                  Your Cart is Empty !{" "}
+                  <Link
+                    to='/crafts'
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    {" "}
+                    Add Items To Your Cart
+                  </Link>
+                </FormLabel>
+              </div>
+            }
           />
         </Col>
       </Row>
